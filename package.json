@@ -1,0 +1,8 @@
+{
+  "name": "teste-backend-nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Neto6391/teste-backend-nodejs",
+  "author": "neto.rodrigues <neto6391@gmail.com>",
+  "license": "MIT"
+}
