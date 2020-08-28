@@ -17,3 +17,8 @@ export const serverError = (): HttpResponse => ({
     code: 0
   }
 })
+
+export const ok = (data: any): HttpResponse => ({
+  statusCode: 200,
+  body: data
+})
