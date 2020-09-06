@@ -20,6 +20,7 @@ describe('Signup Routes', () => {
       .send({
         name: 'Test',
         email: 'test@email.com',
+        cpf: '123',
         password: '123',
         passwordConfirmation: '123'
       })
