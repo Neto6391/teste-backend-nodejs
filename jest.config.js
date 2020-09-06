@@ -14,7 +14,7 @@ module.exports = {
   testEnvironment: 'node',
   preset: '@shelf/jest-mongodb',
   transform: {
-    '.+\\.ts$': 'ts-jest'
+    '.(js|jsx|ts|tsx)': '@sucrase/jest-plugin'
   },
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1'
