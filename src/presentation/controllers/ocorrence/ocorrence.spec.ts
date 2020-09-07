@@ -103,4 +103,28 @@ describe('Ocorrence Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamError('denunciante')))
   })
+
+  test('Should return 400 if no denuncia is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        latitude: -9.648198,
+        longitude: -36.76422,
+        denunciante: {
+          nome: 'any_nome',
+          cpf: 'any_cpf'
+        },
+        endereco: {
+          logradouro: 'any_logradouro',
+          bairro: 'any_bairro',
+          cidade: 'any_cidade',
+          estado: 'any_estado',
+          pais: 'any_pais',
+          cep: 'any_cep'
+        }
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('denuncia')))
+  })
 })
