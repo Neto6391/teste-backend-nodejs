@@ -1,5 +1,5 @@
-import { badRequest } from '../../helpers/http-helper'
-import { MissingParamError } from '../../errors'
+import { badRequest, ok, serverError } from '../../helpers/http-helper'
+import { MissingParamError, ServerError } from '../../errors'
 import { OcorrenceController } from './ocorrence'
 import { AddOcorrence, AddOcorrenceModel } from '../../../domain/usecases/add-ocorrence'
 import { OcorrenceModel } from '../../../domain/models/ocorrence'
@@ -197,5 +197,42 @@ describe('Ocorrence Controller', () => {
         cep: 'any_cep'
       }
     })
+  })
+
+  test('Should return 500 if AddOcorrence throws', async () => {
+    const { sut, addOcorrenceStub } = makeSut()
+    jest.spyOn(addOcorrenceStub, 'add').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+
+    const request = makeFakeRequest()
+    request.body.endereco = {
+      logradouro: 'any_logradouro',
+      bairro: 'any_bairro',
+      cidade: 'any_cidade',
+      estado: 'any_estado',
+      pais: 'any_pais',
+      cep: 'any_cep'
+    }
+
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(serverError(new ServerError(null)))
+  })
+
+  test('Should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+
+    const request = makeFakeRequest()
+    request.body.endereco = {
+      logradouro: 'any_logradouro',
+      bairro: 'any_bairro',
+      cidade: 'any_cidade',
+      estado: 'any_estado',
+      pais: 'any_pais',
+      cep: 'any_cep'
+    }
+
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(ok(makeFakeOcorrence()))
   })
 })
