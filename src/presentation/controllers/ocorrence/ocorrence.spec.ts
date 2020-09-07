@@ -218,7 +218,6 @@ describe('Ocorrence Controller', () => {
     const httpResponse = await sut.handle(request)
     expect(httpResponse).toEqual(serverError(new ServerError(null)))
   })
-
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
 
