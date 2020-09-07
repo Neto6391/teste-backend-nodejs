@@ -15,8 +15,10 @@ export const adaptRoute = (controller: Controller) => {
       const { message } = httpResponse.body.message
 
       res.status(httpResponse.statusCode).json({
-        message,
-        code
+        error: {
+          message,
+          code
+        }
       })
     }
   }
