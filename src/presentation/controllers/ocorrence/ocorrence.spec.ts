@@ -68,4 +68,23 @@ describe('Ocorrence Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamError('latitude')))
   })
+
+  test('Should return 400 if no longitude is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        latitude: -9.648198,
+        denunciante: {
+          nome: 'any_nome',
+          cpf: 'any_cpf'
+        },
+        denuncia: {
+          titulo: 'any_titulo',
+          descricao: 'any_descricao'
+        }
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('longitude')))
+  })
 })
