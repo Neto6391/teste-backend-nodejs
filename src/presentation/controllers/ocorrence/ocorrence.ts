@@ -1,6 +1,6 @@
 import { Controller, HttpResponse, HttpRequest } from '../../protocols'
 import { AddOcorrence } from '../../../domain/usecases/add-ocorrence'
-import { serverError, badRequest } from '../../helpers/http-helper'
+import { serverError, badRequest, ok } from '../../helpers/http-helper'
 import { MissingParamError } from '../../errors/missing-param-error'
 
 export class OcorrenceController implements Controller {
@@ -19,9 +19,16 @@ export class OcorrenceController implements Controller {
           return badRequest(new MissingParamError(field))
         }
       }
+
+      const { latitude, longitude, denunciante, denuncia, endereco } = httpRequest.body
+
+      const account = await this.addOcorrence.add({
+        latitude, longitude, denunciante, denuncia, endereco
+      })
+
+      return ok(account)
     } catch (error) {
       return serverError(error)
     }
-    return new Promise(resolve => resolve(null))
   }
 }
