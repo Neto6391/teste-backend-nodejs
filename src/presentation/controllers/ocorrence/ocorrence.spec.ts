@@ -3,6 +3,7 @@ import { MissingParamError } from '../../errors'
 import { OcorrenceController } from './ocorrence'
 import { AddOcorrence, AddOcorrenceModel } from '../../../domain/usecases/add-ocorrence'
 import { OcorrenceModel } from '../../../domain/models/ocorrence'
+import { HttpRequest } from '../../protocols/http'
 
 const makeAddOcorrence = (): AddOcorrence => {
   class AddOcorrenceStub implements AddOcorrence {
@@ -32,6 +33,21 @@ const makeFakeOcorrence = (): OcorrenceModel => ({
     estado: 'any_estado',
     pais: 'any_pais',
     cep: 'any_cep'
+  }
+})
+
+const makeFakeRequest = (): HttpRequest => ({
+  body: {
+    latitude: -9.648198,
+    longitude: -36.76422,
+    denunciante: {
+      nome: 'any_nome',
+      cpf: 'any_cpf'
+    },
+    denuncia: {
+      titulo: 'any_titulo',
+      descricao: 'any_descricao'
+    }
   }
 })
 
@@ -146,5 +162,40 @@ describe('Ocorrence Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamError('endereco')))
+  })
+
+  test('Should call AddOcorrence with correct values', async () => {
+    const { sut, addOcorrenceStub } = makeSut()
+    const addSpy = jest.spyOn(addOcorrenceStub, 'add')
+    const request = makeFakeRequest()
+    request.body.endereco = {
+      logradouro: 'any_logradouro',
+      bairro: 'any_bairro',
+      cidade: 'any_cidade',
+      estado: 'any_estado',
+      pais: 'any_pais',
+      cep: 'any_cep'
+    }
+    await sut.handle(request)
+    expect(addSpy).toHaveBeenCalledWith({
+      latitude: -9.648198,
+      longitude: -36.76422,
+      denunciante: {
+        nome: 'any_nome',
+        cpf: 'any_cpf'
+      },
+      denuncia: {
+        titulo: 'any_titulo',
+        descricao: 'any_descricao'
+      },
+      endereco: {
+        logradouro: 'any_logradouro',
+        bairro: 'any_bairro',
+        cidade: 'any_cidade',
+        estado: 'any_estado',
+        pais: 'any_pais',
+        cep: 'any_cep'
+      }
+    })
   })
 })
