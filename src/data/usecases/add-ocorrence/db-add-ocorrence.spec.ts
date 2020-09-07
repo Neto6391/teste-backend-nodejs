@@ -77,4 +77,11 @@ describe('DbAddOcorrenceUsecase', () => {
     await sut.add(makeFakeOcorrenceData())
     expect(addSpy).toHaveBeenCalledWith(makeFakeOcorrenceData())
   })
+
+  test('Should return an ocorrence on success', async () => {
+    const { sut } = makeSut()
+
+    const ocorrence = await sut.add(makeFakeOcorrenceData())
+    expect(ocorrence).toEqual(makeFakeOcorrence())
+  })
 })
