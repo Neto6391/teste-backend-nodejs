@@ -27,11 +27,11 @@ export class OcorrenceController implements Controller {
         return notFoundAddress(new NotFoundAddressError())
       }
 
-      const account = await this.addOcorrence.add({
+      const ocorrence = await this.addOcorrence.add({
         latitude, longitude, denunciante, denuncia, endereco
       })
 
-      return ok(account)
+      return ok({ data: ocorrence })
     } catch (error) {
       return serverError(error)
     }
