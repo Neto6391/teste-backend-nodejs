@@ -251,6 +251,6 @@ describe('Ocorrence Controller', () => {
     }
 
     const httpResponse = await sut.handle(request)
-    expect(httpResponse).toEqual(ok(makeFakeOcorrence()))
+    expect(httpResponse).toEqual(ok({ data: makeFakeOcorrence() }))
   })
 })
