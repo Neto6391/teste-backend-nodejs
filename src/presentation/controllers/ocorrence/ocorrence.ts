@@ -1,7 +1,8 @@
 import { Controller, HttpResponse, HttpRequest } from '../../protocols'
 import { AddOcorrence } from '../../../domain/usecases/add-ocorrence'
-import { serverError, badRequest, ok } from '../../helpers/http-helper'
+import { serverError, badRequest, ok, notFoundAddress } from '../../helpers/http-helper'
 import { MissingParamError } from '../../errors/missing-param-error'
+import { NotFoundAddressError } from '../../errors/not-found-address-error'
 
 export class OcorrenceController implements Controller {
   private readonly addOcorrence: AddOcorrence
@@ -21,6 +22,10 @@ export class OcorrenceController implements Controller {
       }
 
       const { latitude, longitude, denunciante, denuncia, endereco } = httpRequest.body
+
+      if (endereco.logradouro.length === 0) {
+        return notFoundAddress(new NotFoundAddressError())
+      }
 
       const account = await this.addOcorrence.add({
         latitude, longitude, denunciante, denuncia, endereco
