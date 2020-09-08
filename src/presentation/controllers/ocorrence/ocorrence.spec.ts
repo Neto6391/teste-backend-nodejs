@@ -1,9 +1,10 @@
-import { badRequest, ok, serverError } from '../../helpers/http-helper'
+import { badRequest, ok, serverError, notFoundAddress } from '../../helpers/http-helper'
 import { MissingParamError, ServerError } from '../../errors'
 import { OcorrenceController } from './ocorrence'
 import { AddOcorrence, AddOcorrenceModel } from '../../../domain/usecases/add-ocorrence'
 import { OcorrenceModel } from '../../../domain/models/ocorrence'
 import { HttpRequest } from '../../protocols/http'
+import { NotFoundAddressError } from '../../errors/not-found-address-error'
 
 const makeAddOcorrence = (): AddOcorrence => {
   class AddOcorrenceStub implements AddOcorrence {
@@ -218,6 +219,24 @@ describe('Ocorrence Controller', () => {
     const httpResponse = await sut.handle(request)
     expect(httpResponse).toEqual(serverError(new ServerError(null)))
   })
+
+  test('Should return 404 if logradouro is not found', async () => {
+    const { sut } = makeSut()
+
+    const request = makeFakeRequest()
+    request.body.endereco = {
+      logradouro: '',
+      bairro: 'any_bairro',
+      cidade: 'any_cidade',
+      estado: 'any_estado',
+      pais: 'any_pais',
+      cep: 'any_cep'
+    }
+
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(notFoundAddress(new NotFoundAddressError()))
+  })
+
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
 
