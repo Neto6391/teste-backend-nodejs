@@ -157,6 +157,22 @@ _Request.body_
 + Instalar as dependencias do projeto com "yarn install";
 + Comando de execucao -- "yarn start"
 
+## Rotas da aplicacao
++ http://localhost:5050/v1/denuncias -> Cadastro de denuncias seguindo o teste proposto;
++ http://localhost:5050/api/signup -> Cadastro de Usuarios;
+
+## Objeto a ser inserido na rota extra
++ Rota -> 'http://localhost:5050/api/signup';
+```
+  {
+	"name": "Test",
+	"email": "test@email.com",
+	"cpf": "123",
+	"password": "123",
+	"passwordConfirmation": "123"
+}									
+```
+
 ### Comandos para Rodar Testes
 + Comando de teste geral "yarn test:ci"
 + Comanddo teste unitarios "yarn test:unit" -- 'OBS: tecla 'a' => executa todos os testes unitarios';
