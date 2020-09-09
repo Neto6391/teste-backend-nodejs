@@ -147,6 +147,22 @@ _Request.body_
 }
 ```
 
+### Instrucoes de execucao do projeto
++ Instalar o Node na versao 12.18.2;
++ Instalar o Yarn no Terminal do SO;
++ Instalar o Docker na Maquina;
++ Instalar o Banco de Dados MongoDB e configurar para rodar na porta '27017';
++ Rodar um container do Redis na Maquina:
++ Comando --'docker run --name redis -d -p 6379:6379 redis';
++ Instalar as dependencias do projeto com "yarn install";
++ Comando de execucao -- "yarn start"
+
+### Comandos para Rodar Testes
++ Comando de teste geral "yarn test:ci"
++ Comanddo teste unitarios "yarn test:unit" -- 'OBS: tecla 'a' => executa todos os testes unitarios';
++ Comando testes de integracao "yarn test:integration"
++ Comando rodar todos os testes no modo Debug "yarn test:verbose"
+
 ### O que esperamos
 
 + Que o desafio seja feito em Node.js;
